@@ -14,6 +14,8 @@ using FrostySdk;
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
+
     [EntityBinding(DataType = typeof(FrostySdk.Ebx.TerrainEntityData))]
     public class TerrainEntity : SpatialEntity, IEntityData<FrostySdk.Ebx.TerrainEntityData>
     {
@@ -42,4 +44,5 @@ namespace LevelEditorPlugin.Entities
             LoadedAssetManager.Instance.UnloadAsset(Terrain);
         }
     }
+#endif
 }

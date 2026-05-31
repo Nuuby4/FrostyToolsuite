@@ -250,7 +250,7 @@ namespace LevelEditorPlugin.Managers
             }
             else
             {
-                App.Logger.LogWarning($"Failed to create asset! AssetData was null");
+                App.Logger.LogWarning($"Failed to create asset! AssetData was null (" + assetData.Name + ")");
             }
             
             if (m_assetTypes.Count == 0)

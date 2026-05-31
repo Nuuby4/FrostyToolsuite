@@ -8,6 +8,7 @@ using TimeSpan = System.TimeSpan;
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
     public class ControllableTimer
     {
         public double ElapsedTime
@@ -391,5 +392,6 @@ namespace LevelEditorPlugin.Entities
             base.OnEvent(eventHash);
         }
     }
+#endif
 }
 

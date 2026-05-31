@@ -3,6 +3,7 @@ using System;
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
 	[EntityBinding(DataType = typeof(FrostySdk.Ebx.PropertyTrackBaseData))]
 	public class PropertyTrackBase : SchematicPinTrack, IEntityData<FrostySdk.Ebx.PropertyTrackBaseData>
 	{
@@ -19,5 +20,6 @@ namespace LevelEditorPlugin.Entities
 			propertyName = FrostySdk.Utils.GetString(Data.TargetPinNameHash);
 		}
 	}
+#endif
 }
 

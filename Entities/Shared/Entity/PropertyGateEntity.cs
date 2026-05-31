@@ -90,8 +90,12 @@ namespace LevelEditorPlugin.Entities
 			vec4OutProperty = new Property<Vec4>(this, Property_Vec4Out);
 			transformInProperty = new Property<LinearTransform>(this, Property_TransformIn, Data.TransformIn);
 			transformOutProperty = new Property<LinearTransform>(this, Property_TransformOut);
-
-			gateOpen = Data.Default;
+			#if SWBF2 || MASS_EFFECT
+				gateOpen = Data.Default;
+			#endif
+			#if DEADSPACE
+				gateOpen = Data.DefaultOpen;
+			#endif
 		}
 
         public override void OnPropertyChanged(int propertyHash)

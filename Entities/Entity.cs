@@ -251,7 +251,7 @@ namespace LevelEditorPlugin.Entities
         protected Entity parent;
         protected Entity owner;
 
-        protected FrostySdk.Ebx.GameObjectData data;
+        protected FrostySdk.Ebx.DataContainer data;
         protected bool isVisible;
 
         protected List<PropertyValue> propertyValues = new List<PropertyValue>();

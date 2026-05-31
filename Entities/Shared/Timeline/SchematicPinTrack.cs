@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
+
 	[EntityBinding(DataType = typeof(FrostySdk.Ebx.SchematicPinTrackData))]
 	public class SchematicPinTrack : TimelineTrack, IEntityData<FrostySdk.Ebx.SchematicPinTrackData>, ITimelineCustomTrackName
 	{
@@ -37,5 +39,6 @@ namespace LevelEditorPlugin.Entities
 			trackName = FrostySdk.Utils.GetString(Data.TargetPinNameHash);
 		}
 	}
+#endif
 }
 

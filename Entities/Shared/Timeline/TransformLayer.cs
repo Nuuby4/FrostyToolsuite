@@ -4,6 +4,8 @@ using SharpDX;
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
+
 	[EntityBinding(DataType = typeof(FrostySdk.Ebx.TransformLayerData))]
 	public class TransformLayer : TimelineTrack, IEntityData<FrostySdk.Ebx.TransformLayerData>
 	{
@@ -20,5 +22,6 @@ namespace LevelEditorPlugin.Entities
 			AddTrack(Data.Weight);
 		}
 	}
+#endif
 }
 

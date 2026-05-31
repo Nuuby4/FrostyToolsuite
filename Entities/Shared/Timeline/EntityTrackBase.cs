@@ -6,6 +6,8 @@ using SharpDX;
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
+
 	[EntityBinding(DataType = typeof(FrostySdk.Ebx.EntityTrackBaseData))]
 	public class EntityTrackBase : TimelineTrack, IEntityData<FrostySdk.Ebx.EntityTrackBaseData>, ITimelineCustomTrackName, ITimelineEntityProviderTrack, ISchematicsType
 	{
@@ -210,5 +212,7 @@ namespace LevelEditorPlugin.Entities
 		{
 		}
 	}
+#endif
+
 }
 

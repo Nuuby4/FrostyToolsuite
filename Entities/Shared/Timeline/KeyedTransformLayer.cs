@@ -4,6 +4,7 @@ using SharpDX;
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
 	[EntityBinding(DataType = typeof(FrostySdk.Ebx.KeyedTransformLayerData))]
 	public class KeyedTransformLayer : TransformLayer, IEntityData<FrostySdk.Ebx.KeyedTransformLayerData>
 	{
@@ -42,5 +43,6 @@ namespace LevelEditorPlugin.Entities
 				Matrix.Translation((float)TranslationX.CurrentValue, (float)TranslationY.CurrentValue, (float)TranslationZ.CurrentValue);
         }
     }
+#endif
 }
 

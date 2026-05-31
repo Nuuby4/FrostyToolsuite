@@ -396,12 +396,12 @@ namespace LevelEditorPlugin.Editors
             inOwner.SelectedObjectChanged += SelectedObjectChanged;
             m_dataModifiedCommand = inOwner.DataModifiedCommand;
         }
-
+#if SWBF2 || MASS_EFFECT
         public PropertiesViewModel(TimelineViewModel inOwner)
         {
             inOwner.SelectedEntityChanged += SelectedEntityChanged;
         }
-
+#endif
         public PropertiesViewModel(IEditorProvider inOwner, Entity currentSelection, ICommand dataModifiedCommand)
             : this(inOwner, currentSelection)
         {

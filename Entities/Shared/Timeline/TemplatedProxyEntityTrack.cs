@@ -1,6 +1,8 @@
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
+
 	[EntityBinding(DataType = typeof(FrostySdk.Ebx.TemplatedProxyEntityTrackData))]
 	public class TemplatedProxyEntityTrack : ProxyEntityTrack, IEntityData<FrostySdk.Ebx.TemplatedProxyEntityTrackData>
 	{
@@ -12,5 +14,6 @@ namespace LevelEditorPlugin.Entities
 		{
 		}
 	}
+#endif
 }
 

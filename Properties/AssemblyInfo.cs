@@ -1,13 +1,14 @@
-﻿using Frosty.Core.Attributes;
-using FrostySdk.Managers;
-using LevelEditorPlugin.Definitions;
-using LevelEditorPlugin.Extensions;
-using LevelEditorPlugin.Resources;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
+using Frosty.Core.Attributes;
+using FrostySdk;
+using FrostySdk.Managers;
 using FrostySdk.Managers.Entries;
+using LevelEditorPlugin.Definitions;
+using LevelEditorPlugin.Extensions;
+using LevelEditorPlugin.Resources;
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
@@ -29,6 +30,8 @@ using FrostySdk.Managers.Entries;
 [assembly: PluginDisplayName("LevelEditor")]
 [assembly: PluginAuthor("GalaxyMan2015 and Cade")]
 [assembly: PluginVersion("1.0.0.0")]
+
+[assembly: PluginValidForProfile((int)ProfileVersion.DeadSpace)]
 
 [assembly: RegisterMenuExtension(typeof(EntityGeneratorExtension))]
 [assembly: RegisterMenuExtension(typeof(DumpLayoutsToLogExtension))]

@@ -8,11 +8,15 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using FrostySdk.Ebx;
+
+#if SWBF2 || MASS_EFFECT
 using FloatTrack = LevelEditorPlugin.Entities.FloatTrack;
 using TimelineEntity = LevelEditorPlugin.Entities.TimelineEntity;
+#endif
 
 namespace LevelEditorPlugin.Controls.TrackEditors
 {
+#if SWBF2 || MASS_EFFECT
     public class FloatTrackEditor : TrackEditorBase
     {
         protected float minValue;
@@ -193,4 +197,5 @@ namespace LevelEditorPlugin.Controls.TrackEditors
             return value;
         }
     }
+#endif
 }

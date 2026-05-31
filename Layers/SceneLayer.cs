@@ -164,7 +164,7 @@ namespace LevelEditorPlugin.Layers
                 }
             }
         }
-
+        #if SWBF2 || MASS_EFFECT
         // temp function
         public void CollectTimelines(List<Entities.Entity> timelines)
         {
@@ -177,7 +177,7 @@ namespace LevelEditorPlugin.Layers
                 }
             }
         }
-
+        #endif
         public void CollectLayers(List<SceneLayer> layers)
         {
             layers.AddRange(ChildLayers);

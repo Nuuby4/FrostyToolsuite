@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace LevelEditorPlugin.Assets
 {
+#if SWBF2 || MASS_EFFECT
+// dead space has no terrain
+
     [AssetBinding(DataType = typeof(FrostySdk.Ebx.TerrainData))]
     public class Terrain : Asset, IAssetData<FrostySdk.Ebx.TerrainData>
     {
@@ -43,4 +46,5 @@ namespace LevelEditorPlugin.Assets
             TerrainData.Dispose();
         }
     }
+#endif
 }

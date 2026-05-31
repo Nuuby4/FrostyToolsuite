@@ -1,6 +1,8 @@
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
+
 	[EntityBinding(DataType = typeof(FrostySdk.Ebx.GroupTransformLayerData))]
 	public class GroupTransformLayer : TransformLayer, IEntityData<FrostySdk.Ebx.GroupTransformLayerData>
 	{
@@ -12,5 +14,6 @@ namespace LevelEditorPlugin.Entities
 		{
 		}
 	}
+#endif
 }
 

@@ -1,7 +1,8 @@
 
 namespace LevelEditorPlugin.Entities
 {
-	[EntityBinding(DataType = typeof(FrostySdk.Ebx.GuideTrackData))]
+#if SWBF2 || MASS_EFFECT	
+[EntityBinding(DataType = typeof(FrostySdk.Ebx.GuideTrackData))]
 	public class GuideTrack : TimelineTrack, IEntityData<FrostySdk.Ebx.GuideTrackData>
 	{
 		public new FrostySdk.Ebx.GuideTrackData Data => data as FrostySdk.Ebx.GuideTrackData;
@@ -12,5 +13,6 @@ namespace LevelEditorPlugin.Entities
 		{
 		}
 	}
+#endif
 }
 

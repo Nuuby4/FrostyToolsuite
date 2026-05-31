@@ -1,6 +1,7 @@
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
 	[EntityBinding(DataType = typeof(FrostySdk.Ebx.Vec4TrackData))]
 	public class Vec4Track : PropertyTrackBase, IEntityData<FrostySdk.Ebx.Vec4TrackData>
 	{
@@ -17,5 +18,6 @@ namespace LevelEditorPlugin.Entities
 			AddTrack(Data.W);
 		}
 	}
+#endif
 }
 

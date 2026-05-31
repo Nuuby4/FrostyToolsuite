@@ -49,8 +49,13 @@ namespace LevelEditorPlugin.Entities
 			closeEvent = new Event<InputEvent>(this, Event_Close);
 			outEvent = new Event<OutputEvent>(this, Event_Out);
 
-			gateOpen = Data.Default;
-		}
+			#if SWBF2 || MASS_EFFECT
+				gateOpen = Data.Default;
+			#endif
+			#if DEADSPACE
+				gateOpen = Data.DefaultOpen;
+			#endif
+        }
 
         public override void OnEvent(int eventHash)
         {

@@ -201,8 +201,10 @@ namespace LevelEditorPlugin.Editors
             toolbarItems.Add(new DockingToolbarItem("", "Show/Hide layers tab", "Images/Layers.png", new RelayCommand((o) => DockManager.AddItem(((DockingToolbarItem)o).Location, new LayersViewModel(this))), DockManager, "UID_LevelEditor_Layers"));
             toolbarItems.Add(new DockingToolbarItem("", "Show/Hide instances tab", "Images/Instances.png", new RelayCommand((o) => DockManager.AddItem(((DockingToolbarItem)o).Location, new InstancesViewModel(this, selectedEntity))), DockManager, "UID_LevelEditor_Instances"));
             toolbarItems.Add(new DockingToolbarItem("", "Show/Hide properties tab", "Images/Properties.png", new RelayCommand((o) => DockManager.AddItem(((DockingToolbarItem)o).Location, new PropertiesViewModel(this, selectedEntity))), DockManager, "UID_LevelEditor_Properties"));
+#if SWBF2 || MASS_EFFECT
             toolbarItems.Add(new DockingToolbarItem("", "Show/Hide terrain layers tab", "Images/Terrain.png", new RelayCommand((o) => DockManager.AddItem(((DockingToolbarItem)o).Location, new TerrainLayersViewModel(this))), DockManager, "UID_LevelEditor_TerrainLayers"));
             toolbarItems.Add(new DockingToolbarItem("", "Show/Hide timeline editor", "Images/Timeline.png", new RelayCommand((o) => DockManager.AddItem(((DockingToolbarItem)o).Location, new TimelineViewModel(this))), DockManager, "UID_LevelEditor_Timeline"));
+#endif
             toolbarItems.Add(new FloatingOnlyDockingToolbarItem("", "Show/Hide schematics editor", "Images/Schematics.png", new RelayCommand((o) => DockManager.AddItem(((DockingToolbarItem)o).Location, new SchematicsViewModel(this, rootLayer))), DockManager, "UID_LevelEditor_Schematics"));
 
             return toolbarItems;
@@ -260,8 +262,10 @@ namespace LevelEditorPlugin.Editors
             DockManager.AddItemOnLoad(new LayersViewModel(this));
             DockManager.AddItemOnLoad(new InstancesViewModel(this, null));
             DockManager.AddItemOnLoad(new PropertiesViewModel(this, editingWorld));
+#if SWBF2 || MASS_EFFECT
             DockManager.AddItemOnLoad(new TimelineViewModel(this));
             DockManager.AddItemOnLoad(new TerrainLayersViewModel(this));
+#endif
             DockManager.AddItemOnLoad(new SchematicsViewModel(this, rootLayer));
         }
     }

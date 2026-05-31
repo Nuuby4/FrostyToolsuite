@@ -1,6 +1,7 @@
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
 	[EntityBinding(DataType = typeof(FrostySdk.Ebx.PropertyReaderTrackBaseData))]
 	public class PropertyReaderTrackBase : SchematicPinTrack, IEntityData<FrostySdk.Ebx.PropertyReaderTrackBaseData>
 	{
@@ -12,5 +13,6 @@ namespace LevelEditorPlugin.Entities
 		{
 		}
 	}
+#endif
 }
 

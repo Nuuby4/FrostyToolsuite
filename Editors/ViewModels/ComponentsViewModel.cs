@@ -98,6 +98,8 @@ namespace LevelEditorPlugin.Editors
 
         public ComponentsViewModel(IEditorProvider inOwner)
         {
+            try
+            {
             owner = inOwner;
 
             SceneLayer layer = owner.RootLayer;
@@ -105,7 +107,12 @@ namespace LevelEditorPlugin.Editors
 
             components.Add(new ComponentWrapper(rootEntity));
             RecursiveSetSelectionChanged(components[0]);
-        }
+            }
+            catch
+            {
+
+            }
+            }
 
         private void RecursiveSetSelectionChanged(ComponentWrapper wrapper)
         {

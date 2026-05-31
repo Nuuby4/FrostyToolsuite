@@ -7,6 +7,8 @@ using LinearTransform = FrostySdk.Ebx.LinearTransform;
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
+
 	[EntityBinding(DataType = typeof(FrostySdk.Ebx.LayeredTransformTrackData))]
 	public class LayeredTransformTrack : PropertyTrackBase, IEntityData<FrostySdk.Ebx.LayeredTransformTrackData>
 	{
@@ -62,5 +64,6 @@ namespace LevelEditorPlugin.Entities
 			}
 		}
 	}
+#endif
 }
 

@@ -14,6 +14,8 @@ using FrostySdk.Ebx;
 
 namespace LevelEditorPlugin.Editors
 {
+#if SWBF2 || MASS_EFFECT
+
     public class TerrainLayer : INotifyPropertyChanged
     {
         public string Name { get; private set; }
@@ -160,4 +162,5 @@ namespace LevelEditorPlugin.Editors
         }
         #endregion
     }
+#endif
 }

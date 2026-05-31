@@ -82,7 +82,10 @@ namespace LevelEditorPlugin.Editors
                 new DockingToolbarItem("", "Show/Hide layers tab", "Images/Layers.png", new RelayCommand((o) => DockManager.AddItem(((DockingToolbarItem)o).Location, new LayersViewModel(this))), DockManager, "UID_LevelEditor_Layers"),
                 new DockingToolbarItem("", "Show/Hide instances tab", "Images/Instances.png", new RelayCommand((o) => DockManager.AddItem(((DockingToolbarItem)o).Location, new InstancesViewModel(this, selectedEntity))), DockManager, "UID_LevelEditor_Instances"),
                 new DockingToolbarItem("", "Show/Hide properties tab", "Images/Properties.png", new RelayCommand((o) => DockManager.AddItem(((DockingToolbarItem)o).Location, new PropertiesViewModel(this, selectedEntity))), DockManager, "UID_LevelEditor_Properties"),
+#if SWBF2 || MASS_EFFECT
+
                 new DockingToolbarItem("", "Show/Hide timeline editor", "Images/Timeline.png", new RelayCommand((o) => DockManager.AddItem(((DockingToolbarItem)o).Location, new TimelineViewModel(this))), DockManager, "UID_LevelEditor_Timeline"),
+#endif
                 new FloatingOnlyDockingToolbarItem("", "Show/Hide schematics editor", "Images/Schematics.png", new RelayCommand((o) => DockManager.AddItem(((DockingToolbarItem)o).Location, new SchematicsViewModel(this, rootLayer))), DockManager, "UID_LevelEditor_Schematics"),
                 new DividerToolbarItem(),
                 new RegularToolbarItem("", "Capture thumbnail preview", "LevelEditorPlugin/Images/CaptureThumbnail.png", new RelayCommand((o) => { CaptureThumbnail(viewport); })),
@@ -150,7 +153,9 @@ namespace LevelEditorPlugin.Editors
             DockManager.AddItemOnLoad(new LayersViewModel(this));
             DockManager.AddItemOnLoad(new InstancesViewModel(this, null));
             DockManager.AddItemOnLoad(new PropertiesViewModel(this, editingWorld));
+#if SWBF2 || MASS_EFFECT
             DockManager.AddItemOnLoad(new TimelineViewModel(this));
+#endif
             DockManager.AddItemOnLoad(new SchematicsViewModel(this, rootLayer));
         }
     }

@@ -2,6 +2,7 @@ using SharpDX;
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
 	[EntityBinding(DataType = typeof(FrostySdk.Ebx.ScaleTransformLayerData))]
 	public class ScaleTransformLayer : TransformLayer, IEntityData<FrostySdk.Ebx.ScaleTransformLayerData>
 	{
@@ -30,5 +31,6 @@ namespace LevelEditorPlugin.Entities
 			currentValue = Matrix.Scaling((float)scaleX.CurrentValue, (float)scaleY.CurrentValue, (float)scaleZ.CurrentValue);
 		}
 	}
+#endif
 }
 

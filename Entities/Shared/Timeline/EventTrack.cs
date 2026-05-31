@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
+
 	[EntityBinding(DataType = typeof(FrostySdk.Ebx.EventTrackData))]
 	public class EventTrack : SchematicPinTrack, IEntityData<FrostySdk.Ebx.EventTrackData>
 	{
@@ -71,5 +73,6 @@ namespace LevelEditorPlugin.Entities
 			}
         }
     }
+#endif
 }
 

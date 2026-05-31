@@ -415,19 +415,39 @@ namespace LevelEditorPlugin.Resources
                 offset2 = reader.ReadLong();
 
             long stringOffset = reader.ReadLong(); // materialName
-
-            materialId = reader.ReadInt();
-            if (ProfilesLibrary.DataVersion != (int)ProfileVersion.DragonAgeInquisition && ProfilesLibrary.DataVersion != (int)ProfileVersion.Battlefield4 && ProfilesLibrary.DataVersion != (int)ProfileVersion.PlantsVsZombiesGardenWarfare && ProfilesLibrary.DataVersion != (int)ProfileVersion.NeedForSpeedRivals && ProfilesLibrary.DataVersion != (int)ProfileVersion.NeedForSpeedEdge)
-                unknownInt1 = reader.ReadUInt();
-            primitiveCount = reader.ReadUInt();
-            startIndex = reader.ReadUInt();
-            vertexOffset = reader.ReadUInt();
-            vertexCount = reader.ReadUInt();
-            vertexStride = reader.ReadByte();
-            primitiveType = (PrimitiveType)reader.ReadByte();
-            bonesPerVertex = reader.ReadByte();
-            uint boneCount = reader.ReadByte();
-
+            uint boneCount = 0;
+            long boneListOffset = 0;
+            if (ProfilesLibrary.DataVersion != (int)ProfileVersion.DeadSpace)
+            {
+                materialId = reader.ReadInt();
+                if (ProfilesLibrary.DataVersion != (int)ProfileVersion.DragonAgeInquisition && ProfilesLibrary.DataVersion != (int)ProfileVersion.Battlefield4 && ProfilesLibrary.DataVersion != (int)ProfileVersion.PlantsVsZombiesGardenWarfare && ProfilesLibrary.DataVersion != (int)ProfileVersion.NeedForSpeedRivals && ProfilesLibrary.DataVersion != (int)ProfileVersion.NeedForSpeedEdge)
+                    unknownInt1 = reader.ReadUInt();
+                primitiveCount = reader.ReadUInt();
+                startIndex = reader.ReadUInt();
+                vertexOffset = reader.ReadUInt();
+                vertexCount = reader.ReadUInt();
+                vertexStride = reader.ReadByte();
+                primitiveType = (PrimitiveType)reader.ReadByte();
+                bonesPerVertex = reader.ReadByte();
+                boneCount = reader.ReadByte();
+            }
+            else
+            {
+                boneListOffset = reader.ReadLong(); // not implemented in LevelEditor yet;
+                boneCount = (uint)reader.ReadShort();
+                bonesPerVertex = reader.ReadByte();
+                reader.ReadByte();
+                materialId = reader.ReadUShort();
+                vertexStride = reader.ReadByte();
+                primitiveType = (PrimitiveType)reader.ReadByte();
+                primitiveCount = reader.ReadUInt();
+                startIndex = reader.ReadUInt();
+                vertexOffset = reader.ReadUInt();
+                vertexCount = reader.ReadUInt();
+                reader.ReadUInt();
+                reader.ReadLong();
+                reader.ReadLong();
+            }
             // Fifa 17/18 store boneCount in a UINT
             if (ProfilesLibrary.DataVersion == (int)ProfileVersion.Fifa17 || ProfilesLibrary.DataVersion == (int)ProfileVersion.Fifa18 || ProfilesLibrary.DataVersion == (int)ProfileVersion.Madden19 || ProfilesLibrary.DataVersion == (int)ProfileVersion.Fifa19 || ProfilesLibrary.DataVersion == (int)ProfileVersion.Anthem
                 || ProfilesLibrary.DataVersion == (int)ProfileVersion.Madden20 || ProfilesLibrary.DataVersion == (int)ProfileVersion.Fifa20 || ProfilesLibrary.DataVersion == (int)ProfileVersion.PlantsVsZombiesBattleforNeighborville || ProfilesLibrary.DataVersion == (int)ProfileVersion.NeedForSpeedHeat
@@ -458,8 +478,10 @@ namespace LevelEditorPlugin.Resources
             }
 
             // boneIndices
-            long boneListOffset = reader.ReadLong();
-
+            if (ProfilesLibrary.DataVersion != (int)ProfileVersion.DeadSpace)
+            {
+                boneListOffset = reader.ReadLong();
+            }
             // Fifa18/SWBF2/NFS Payback/Anthem
             if (ProfilesLibrary.DataVersion == (int)ProfileVersion.StarWarsBattlefrontII || ProfilesLibrary.DataVersion == (int)ProfileVersion.NeedForSpeedPayback || ProfilesLibrary.DataVersion == (int)ProfileVersion.Fifa19 || ProfilesLibrary.DataVersion == (int)ProfileVersion.Anthem
                 || ProfilesLibrary.DataVersion == (int)ProfileVersion.Madden20 || ProfilesLibrary.DataVersion == (int)ProfileVersion.Fifa20 || ProfilesLibrary.DataVersion == (int)ProfileVersion.PlantsVsZombiesBattleforNeighborville || ProfilesLibrary.DataVersion == (int)ProfileVersion.NeedForSpeedHeat || ProfilesLibrary.DataVersion == (int)ProfileVersion.StarWarsSquadrons
@@ -487,48 +509,92 @@ namespace LevelEditorPlugin.Resources
                     hasUnknown3 = true;
             }
 
-            // geometry declarations
-            for (int geomDeclId = 0; geomDeclId < DeclCount; geomDeclId++)
+            if (ProfilesLibrary.DataVersion != (int)ProfileVersion.DeadSpace)
             {
-                geometryDeclarationDesc[geomDeclId].Elements = new GeometryDeclarationDesc.Element[GeometryDeclarationDesc.MaxElements];
-                geometryDeclarationDesc[geomDeclId].Streams = new GeometryDeclarationDesc.Stream[GeometryDeclarationDesc.MaxStreams];
-
-                for (int i = 0; i < GeometryDeclarationDesc.MaxElements; i++)
+                // geometry declarations
+                for (int geomDeclId = 0; geomDeclId < DeclCount; geomDeclId++)
                 {
-                    GeometryDeclarationDesc.Element elem = new GeometryDeclarationDesc.Element
+                    geometryDeclarationDesc[geomDeclId].Elements = new GeometryDeclarationDesc.Element[GeometryDeclarationDesc.MaxElements];
+                    geometryDeclarationDesc[geomDeclId].Streams = new GeometryDeclarationDesc.Stream[GeometryDeclarationDesc.MaxStreams];
+
+                    for (int i = 0; i < GeometryDeclarationDesc.MaxElements; i++)
                     {
-                        Usage = (VertexElementUsage)reader.ReadByte(),
-                        Format = (VertexElementFormat)reader.ReadByte(),
-                        Offset = reader.ReadByte(),
-                        StreamIndex = reader.ReadByte()
-                    };
+                        GeometryDeclarationDesc.Element elem = new GeometryDeclarationDesc.Element
+                        {
+                            Usage = (VertexElementUsage)reader.ReadByte(),
+                            Format = (VertexElementFormat)reader.ReadByte(),
+                            Offset = reader.ReadByte(),
+                            StreamIndex = reader.ReadByte()
+                        };
 
-                    geometryDeclarationDesc[geomDeclId].Elements[i] = elem;
-                }
-                for (int i = 0; i < GeometryDeclarationDesc.MaxStreams; i++)
-                {
-                    GeometryDeclarationDesc.Stream stream = new GeometryDeclarationDesc.Stream
+                        geometryDeclarationDesc[geomDeclId].Elements[i] = elem;
+                    }
+                    for (int i = 0; i < GeometryDeclarationDesc.MaxStreams; i++)
                     {
-                        VertexStride = reader.ReadByte(),
-                        Classification = (VertexElementClassification)reader.ReadByte()
-                    };
+                        GeometryDeclarationDesc.Stream stream = new GeometryDeclarationDesc.Stream
+                        {
+                            VertexStride = reader.ReadByte(),
+                            Classification = (VertexElementClassification)reader.ReadByte()
+                        };
 
-                    geometryDeclarationDesc[geomDeclId].Streams[i] = stream;
+                        geometryDeclarationDesc[geomDeclId].Streams[i] = stream;
+                    }
+
+                    geometryDeclarationDesc[geomDeclId].ElementCount = reader.ReadByte();
+                    geometryDeclarationDesc[geomDeclId].StreamCount = reader.ReadByte();
                 }
-
-                geometryDeclarationDesc[geomDeclId].ElementCount = reader.ReadByte();
-                geometryDeclarationDesc[geomDeclId].StreamCount = reader.ReadByte();
-                reader.ReadBytes(2); // padding
             }
-
             // texture ratios
             for (int i = 0; i < 6; i++)
                 texCoordRatios.Add(reader.ReadFloat());
+            if (ProfilesLibrary.DataVersion == (int)ProfileVersion.DeadSpace)
+            {
+                for (int geomDeclId = 0; geomDeclId < DeclCount; geomDeclId++)
+                {
+                    geometryDeclarationDesc[geomDeclId].Elements = new GeometryDeclarationDesc.Element[GeometryDeclarationDesc.MaxElements];
+                    geometryDeclarationDesc[geomDeclId].Streams = new GeometryDeclarationDesc.Stream[GeometryDeclarationDesc.MaxStreams];
 
+                    for (int i = 0; i < GeometryDeclarationDesc.MaxElements; i++)
+                    {
+                        GeometryDeclarationDesc.Element elem = new GeometryDeclarationDesc.Element
+                        {
+                            Usage = (VertexElementUsage)reader.ReadByte(),
+                            Format = (VertexElementFormat)reader.ReadByte(),
+                            Offset = reader.ReadByte(),
+                            StreamIndex = reader.ReadByte()
+                        };
+
+                        geometryDeclarationDesc[geomDeclId].Elements[i] = elem;
+                    }
+                    for (int i = 0; i < GeometryDeclarationDesc.MaxStreams; i++)
+                    {
+                        GeometryDeclarationDesc.Stream stream = new GeometryDeclarationDesc.Stream
+                        {
+                            VertexStride = reader.ReadByte(),
+                            Classification = (VertexElementClassification)reader.ReadByte()
+                        };
+
+                        geometryDeclarationDesc[geomDeclId].Streams[i] = stream;
+                    }
+
+                    geometryDeclarationDesc[geomDeclId].ElementCount = reader.ReadByte();
+                    geometryDeclarationDesc[geomDeclId].StreamCount = reader.ReadByte();
+                    reader.ReadBytes(2); // padding
+                }
+
+                // @TODO add to writer
+                reader.ReadLong(); // unk hash
+                reader.Pad(16); 
+                reader.ReadBytes(0x10);
+                reader.ReadAxisAlignedBox();
+            }
             // unknown data block
             int count = 0;
             switch (ProfilesLibrary.DataVersion)
             {
+                case (int)ProfileVersion.DeadSpace:
+                    count = 0;
+                    break;
                 case (int)ProfileVersion.MassEffectAndromeda:
                     count = 48;
                     break;
@@ -556,6 +622,8 @@ namespace LevelEditorPlugin.Resources
                     break;
             }
             unknownData = reader.ReadBytes(count);
+
+            // executiveFemale_leftfoot
 
             // section data bone list
             long curPos = reader.Position;
@@ -695,6 +763,7 @@ namespace LevelEditorPlugin.Resources
 
         private List<AxisAlignedBox> partBoundingBoxes = new List<AxisAlignedBox>();
         private List<LinearTransform> partTransforms = new List<LinearTransform>();
+        private List<List<int>> m_partIndices = new List<List<int>>();
 
         private byte[] inlineData;
         private uint inlineDataOffset;
@@ -703,7 +772,9 @@ namespace LevelEditorPlugin.Resources
 
         public MeshSetLod(NativeReader reader, AssetManager am)
         {
-            meshType = (MeshType)reader.ReadUInt();
+            // next mesh: CryoSuitMale_Dead
+
+            meshType = (MeshType)reader.ReadUInt(); // starts E0
             maxInstances = reader.ReadUInt();
 
             if (ProfilesLibrary.DataVersion == (int)ProfileVersion.Anthem)
@@ -743,6 +814,12 @@ namespace LevelEditorPlugin.Resources
             {
                 adjacencyBufferSize = reader.ReadInt();
                 adjacencyData = new byte[adjacencyBufferSize];
+            }
+            
+            if (ProfilesLibrary.DataVersion == (int)ProfileVersion.DeadSpace)
+            {
+                reader.ReadLong();
+                reader.ReadInt();
             }
 
             chunkId = reader.ReadGuid();
@@ -793,7 +870,7 @@ namespace LevelEditorPlugin.Resources
             }
 
             // SWBF2/NFS Payback/SWS
-            else if (ProfilesLibrary.DataVersion == (int)ProfileVersion.StarWarsBattlefrontII || ProfilesLibrary.DataVersion == (int)ProfileVersion.NeedForSpeedPayback || ProfilesLibrary.DataVersion == (int)ProfileVersion.StarWarsSquadrons)
+            else if (ProfilesLibrary.DataVersion == (int)ProfileVersion.StarWarsBattlefrontII || ProfilesLibrary.DataVersion == (int)ProfileVersion.NeedForSpeedPayback || ProfilesLibrary.DataVersion == (int)ProfileVersion.StarWarsSquadrons || ProfilesLibrary.DataVersion == (int)ProfileVersion.DeadSpace)
             {
                 if (meshType == MeshType.MeshType_Skinned)
                 {
@@ -868,17 +945,22 @@ namespace LevelEditorPlugin.Resources
                 if (bonePartOffset03 != 0)
                 {
                     reader.Position = bonePartOffset03;
-                    List<int> partIndices = new List<int>();
-
-                    for (int i = 0; i < 0x18; i++)
+                    for (int s = 0; s < sectionCount; s++)
                     {
-                        int b = reader.ReadByte();
-                        for (int j = 0; j < 8; j++)
+                        List<int> sectionPartIndices = new List<int>();
+                        for (int i = 0; i < 0x18; i++)
                         {
-                            if ((b & 0x01) != 0)
-                                partIndices.Add((i * 8) + j);
-                            b >>= 1;
+                            int b = reader.ReadByte();
+                            for (int j = 0; j < 8; j++)
+                            {
+                                if ((b & 0x01) != 0)
+                                {
+                                    sectionPartIndices.Add((i * 8) + j);
+                                }
+                                b >>= 1;
+                            }
                         }
+                        m_partIndices.Add(sectionPartIndices);
                     }
                 }
             }
@@ -1040,6 +1122,10 @@ namespace LevelEditorPlugin.Resources
 
         public override void Read(NativeReader reader, AssetManager am, ResAssetEntry entry, ModifiedResource modifiedData)
         {
+            // Test Asset Path: corruption_debug_plane_mesh
+
+            //472d2015c55ebd63
+
             base.Read(reader, am, entry, modifiedData);
             boundingBox = reader.ReadAxisAlignedBox();
 
@@ -1051,7 +1137,19 @@ namespace LevelEditorPlugin.Resources
             long nameOffset = reader.ReadLong();
 
             nameHash = reader.ReadUInt();
-            meshType = (MeshType)reader.ReadUInt();
+
+            if (ProfilesLibrary.DataVersion == (int)ProfileVersion.DeadSpace)
+            {
+                meshType = (MeshType)reader.ReadByte();
+                reader.ReadByte();
+                reader.ReadByte();
+                reader.ReadByte();
+            }
+            else
+            {
+                meshType = (MeshType)reader.ReadUInt();
+            }
+
             flags = (MeshLayoutFlags)reader.ReadUInt();
 
             switch (ProfilesLibrary.DataVersion)
@@ -1092,6 +1190,10 @@ namespace LevelEditorPlugin.Resources
                         unknownUInts.Add(reader.ReadUInt());
                     unknownUInts.Add(reader.ReadUShort());
                     break;
+                case (int)ProfileVersion.DeadSpace:
+                    for (int i = 0; i < 11; i++)
+                        unknownUInts.Add(reader.ReadUInt());
+                    break;
                 default:
                     unknownUInts.Add(reader.ReadUInt());
                     if (ProfilesLibrary.DataVersion != (int)ProfileVersion.MassEffectAndromeda)
@@ -1110,6 +1212,42 @@ namespace LevelEditorPlugin.Resources
             ushort lodCount = reader.ReadUShort();
             ushort sectionCount = reader.ReadUShort();
             ushort bonePartCount = 0;
+
+            // env_arc_ch04_captainnest_deck_throne_01_mesh test
+            
+            if (ProfilesLibrary.DataVersion == (int) ProfileVersion.DeadSpace)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    //lodSectionsIndexStart
+                    reader.ReadUShort();
+                }
+                if (meshType == MeshType.MeshType_Skinned)
+                {
+                    boneCount = reader.ReadUShort();
+                    bonePartCount = reader.ReadUShort();
+
+                    if (boneCount != 0 || bonePartCount != 0)
+                    {
+                        long offset1 = reader.ReadLong();
+                        long offset2 = reader.ReadLong();
+                    }
+                }
+                else if (meshType == MeshType.MeshType_Composite)
+                {
+                    bonePartCount = reader.ReadUShort();
+                    boneCount = reader.ReadUShort();
+
+                    if (boneCount != 0 || bonePartCount != 0)
+                    {
+                        //partTransformsOffset;
+                        reader.ReadLong();
+                        //partBoundingBoxesOffset;
+                        reader.ReadLong();
+                    }
+                }
+                reader.Pad(16);
+            }
 
             // SWBF2/NFS Payback
             if (ProfilesLibrary.DataVersion == (int)ProfileVersion.StarWarsBattlefrontII || ProfilesLibrary.DataVersion == (int)ProfileVersion.NeedForSpeedPayback || ProfilesLibrary.DataVersion == (int)ProfileVersion.Fifa20 || ProfilesLibrary.DataVersion == (int)ProfileVersion.StarWarsSquadrons)
@@ -1149,8 +1287,6 @@ namespace LevelEditorPlugin.Resources
 
                     reader.Position = curPos;
                 }
-
-                reader.Pad(16);
             }
 
             // MEA skinned/composite meshes only
@@ -1239,7 +1375,7 @@ namespace LevelEditorPlugin.Resources
                 Debug.Assert(reader.Position == lodOffsets[i]);
                 lods.Add(new MeshSetLod(reader, am));
 
-                if (ProfilesLibrary.DataVersion == (int)ProfileVersion.MassEffectAndromeda || ProfilesLibrary.DataVersion == (int)ProfileVersion.StarWarsBattlefrontII || ProfilesLibrary.DataVersion == (int)ProfileVersion.StarWarsSquadrons)
+                if (ProfilesLibrary.DataVersion == (int)ProfileVersion.MassEffectAndromeda || ProfilesLibrary.DataVersion == (int)ProfileVersion.StarWarsBattlefrontII || ProfilesLibrary.DataVersion == (int)ProfileVersion.StarWarsSquadrons || ProfilesLibrary.DataVersion == (int)ProfileVersion.DeadSpace)
                     lods[i].SetParts(partTransforms, partBoundingBoxes);
             }
 

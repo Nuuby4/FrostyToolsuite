@@ -1,6 +1,7 @@
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
 	[EntityBinding(DataType = typeof(FrostySdk.Ebx.RecordTrackChildrenData))]
 	public class RecordTrackChildren : RecordTrackBase, IEntityData<FrostySdk.Ebx.RecordTrackChildrenData>
 	{
@@ -12,5 +13,6 @@ namespace LevelEditorPlugin.Entities
 		{
 		}
 	}
+#endif
 }
 

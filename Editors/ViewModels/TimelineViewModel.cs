@@ -19,6 +19,8 @@ using LevelEditorPlugin.Layers;
 
 namespace LevelEditorPlugin.Editors
 {
+#if SWBF2 || MASS_EFFECT
+
     public class IconCache
     {
         #region -- Singleton --
@@ -519,4 +521,5 @@ namespace LevelEditorPlugin.Editors
         }
         #endregion
     }
+#endif
 }

@@ -175,7 +175,16 @@ namespace LevelEditorPlugin.Entities
                         if (i < member.InstanceObjectVariation.Count)
                         {
                             Entity currentLayer = Parent;
-                            entityData.ObjectVariationHash = member.InstanceObjectVariation[i];
+
+                            if (member.InstanceObjectVariation[i].Internal != null)
+                            {
+                                ObjectVariation ov = member.InstanceObjectVariation[i].Internal as ObjectVariation;
+                                entityData.ObjectVariationHash = ov.NameHash;
+                            }
+                            else
+                            {
+                                entityData.ObjectVariationHash = 0;
+                            }
 
                             if (entityData.ObjectVariationHash != 0)
                             {
@@ -347,12 +356,11 @@ namespace LevelEditorPlugin.Entities
                     FrostySdk.Ebx.StaticModelGroupPhysicsComponentData physicsComponentData = (FrostySdk.Ebx.StaticModelGroupPhysicsComponentData)gameObjectData;
                     foreach (PointerRef body in physicsComponentData.PhysicsBodies)
                     {
-                        FrostySdk.Ebx.GroupRigidBodyData bodyData = body.GetObjectAs<FrostySdk.Ebx.GroupRigidBodyData>();
-                        FrostySdk.Ebx.GroupHavokAsset havokAsset = bodyData.Asset.GetObjectAs<FrostySdk.Ebx.GroupHavokAsset>();
+                        PhysicsAsset a = body.Internal as PhysicsAsset;
 
-                        if (havokAsset != null)
+                        if (a != null)
                         {
-                            return App.AssetManager.GetResAs<Resources.HavokPhysicsData>(App.AssetManager.GetResEntry(havokAsset.Resource));
+                            return App.AssetManager.GetResAs<Resources.HavokPhysicsData>(App.AssetManager.GetResEntry(a.Resource));
                         }
                     }
                 }

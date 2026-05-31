@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
+
 	[EntityBinding(DataType = typeof(FrostySdk.Ebx.EntityTrackData))]
 	public class EntityTrack : EntityTrackBase, IEntityData<FrostySdk.Ebx.EntityTrackData>
 	{
@@ -19,5 +21,6 @@ namespace LevelEditorPlugin.Entities
 			}
 		}
 	}
+#endif
 }
 

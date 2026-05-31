@@ -5,6 +5,7 @@ using LevelEditorPlugin.Library;
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
 	[EntityBinding(DataType = typeof(FrostySdk.Ebx.FloatTrackData))]
 	public class FloatTrack : PropertyTrackBase, IEntityData<FrostySdk.Ebx.FloatTrackData>
 	{
@@ -88,5 +89,6 @@ namespace LevelEditorPlugin.Entities
 			}
         }
 	}
+#endif
 }
 

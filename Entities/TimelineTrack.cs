@@ -8,6 +8,8 @@ using FrostySdk.Ebx;
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
+
     [EntityBinding(DataType = typeof(FrostySdk.Ebx.TimelineTrackData))]
     public class TimelineTrack : Entity, IEntityData<FrostySdk.Ebx.TimelineTrackData>, ITimelineTrackEntity, IContainerOfEntities
     {
@@ -94,4 +96,5 @@ namespace LevelEditorPlugin.Entities
             return CreateEntity(objectData) as TimelineTrack;
         }
     }
+#endif
 }

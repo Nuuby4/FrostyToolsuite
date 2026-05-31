@@ -11,6 +11,7 @@ using D3D11 = SharpDX.Direct3D11;
 
 namespace LevelEditorPlugin.Render.Proxies
 {
+#if SWBF2 || MASS_EFFECT
     public class TerrainRenderProxy : RenderProxy
     {
         protected TerrainChunkRenderable renderData;
@@ -132,4 +133,5 @@ namespace LevelEditorPlugin.Render.Proxies
             pixelTextures.Clear();
         }
     }
+#endif
 }

@@ -2,6 +2,7 @@ using Vec4 = FrostySdk.Ebx.Vec4;
 
 namespace LevelEditorPlugin.Entities
 {
+#if SWBF2 || MASS_EFFECT
 	[EntityBinding(DataType = typeof(FrostySdk.Ebx.ColorTrackData))]
 	public class ColorTrack : PropertyTrackBase, IEntityData<FrostySdk.Ebx.ColorTrackData>
 	{
@@ -69,5 +70,6 @@ namespace LevelEditorPlugin.Entities
 			}
 		}
 	}
+#endif
 }
 

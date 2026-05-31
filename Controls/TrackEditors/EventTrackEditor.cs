@@ -10,6 +10,8 @@ using LevelEditorPlugin.Entities;
 
 namespace LevelEditorPlugin.Controls.TrackEditors
 {
+#if SWBF2 || MASS_EFFECT
+
     public class EventTrackEditor : TrackEditorBase
     {
         protected Brush eventKeyframeBrush;
@@ -57,4 +59,5 @@ namespace LevelEditorPlugin.Controls.TrackEditors
             drawingContext.Pop();
         }
     }
+#endif
 }
